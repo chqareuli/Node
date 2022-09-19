@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <script>
+        const updateProduct= async ()=>{
+            let id = document.getElementById('id').value;
+            let name = document.getElementById('name').value;
+            let price = document.getElementById('price').value;
+            const data = {id,name,price};
+            const response = await fetch('/api/products', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    //console.log('Success:', data);
+                    return data;
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+            
+            if(response.result == "ok"){
+                location = "/product"
+            }
+        }
+    </script>
+    <h1><%= title %></h1>
+        <input id="id" value='<%= record.id %>'' readonly/> <br/><br/>
+        <input id="name" placeholder="Name" value='<%= record.name %>'' /> <br/><br/>
+        <input id="price" placeholder="Price" value='<%= record.price %>'' /> <br/><br/><br/><br/>
+        <input type="button" onclick="updateProduct()" value="Update"/>
+  </body>
+</html>
